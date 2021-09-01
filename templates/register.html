@@ -1,14 +1,21 @@
+<!-- Herencia del archivo layout_flask mediante jinja -->
 {% extends "layout_flask.html" %}
 
+<!-- Código de Título de la pestaña -->
+<!-- Código de apertura -->
 {% block title %}
 register
+
+<!-- Cierre de bloque -->
 {% endblock %}
 
+<!-- Código de Contenido Principal (main) -->
+<!-- Apertura de bloque main -->
 {% block main %}
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
         <div class="encabezadocuenta mt-4">
-            <h3>Crear una cuenta</h3>
+            <h3>Create an Account</h3>
         </div>
     </div>
 
@@ -36,22 +43,25 @@ register
                 </form>
             </div>
         </div>
-        <div class="col d-flex justify-content-center">
-            <div class="row">
-                <div class="redessociales">
-                    <i class="icon ion-logo-google"></i>
-                </div>
-                <br>
-                <div class="redessociales">B</div>
-                <br>
-                <div class="redessociales">C</div>
-
-
-            </div>
+        
+        <div class="col">
+           <div class="ml-5">
+            <button type="button" class="btn"><span><img src="https://img.icons8.com/color/30/000000/google-logo.png"/></span><span>&nbsp &nbsp &nbsp </span><span>Continue with Google</span></button>
+           </div>
+           <br>
+           <div class="ml-5">
+            <button type="button" class="btn"><span><img src="https://img.icons8.com/color/30/000000/facebook.png"/></span><span>&nbsp &nbsp &nbsp </span><span style="color: rgb(10, 10, 10);">Continue with Facebook</span></button>
+           </div>
+           <br>
+           <div class="ml-5">
+            <button type="button" class="btn"><span><img src="https://img.icons8.com/ios-glyphs/30/000000/mac-os.png"/></span><span>&nbsp &nbsp &nbsp </span><span style="color: rgb(10, 10, 10);">Continue with Apple</span></button>
+           </div>
+           
 
         </div>
+        
     </div>
 </div>
 
-
+<!-- Apertura de bloque main -->
 {% endblock %}
