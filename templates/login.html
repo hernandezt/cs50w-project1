@@ -1,0 +1,43 @@
+{% extends "layout_flask.html" %}
+
+{% block title %}
+register
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="encabezadocuenta">
+        <h3>Crear una cuenta</h3>
+    </div>
+    <div class="row justify-content-around">
+        <div class="col">
+
+            <div class="login_form">
+
+                <form action="/register" method="post">
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username"
+                            type="text" required />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="password" placeholder="Password" type="password"
+                            title="Use mayúsculas, minúsculas y caracteres" minlength="8" maxlength="30" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" name="confirmation" placeholder="confirmation" type="password"
+                            minlength="8" maxlength="30" required />
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">register</button>
+                </form>
+            </div>
+        </div>
+        <div class="col">
+            ESCRIBIR CONTENIDO AQUÍ
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,9 @@
+
+/* Código para enlazar con la base de datos */
+
+$env:DATABASE_URL="postgresql://tgjizhjmyvimae:6664e649ae10b83cb8a346106e346eb032b71a9afdcbf9c06c53f3c4d81f10b7@ec2-23-21-4-7.compute-1.amazonaws.com:5432/dcg3ocof5kb91v"
+
+$env:FLASK_APP="application.py"
+
+/* Código para activar el debuger en modo automático */
+$env:FLASK_DEBUG=true
