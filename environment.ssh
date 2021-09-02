@@ -6,4 +6,4 @@ $env:DATABASE_URL="postgresql://tgjizhjmyvimae:6664e649ae10b83cb8a346106e346eb03
 $env:FLASK_APP="application.py"
 
 /* Código para activar el debuger en modo automático */
-$env:FLASK_DEBUG=true
+$env:FLASK_DEBUG=1

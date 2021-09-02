@@ -17,7 +17,7 @@
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
   
   <!-- Funcionalidades adicionales con Flask mediante Jinja -->
-  <title> {% block titulo %}{% endblock %}</title>
+  <title> {% block title %}{% endblock %}</title>
 </head>
 
 <body>
@@ -25,26 +25,56 @@
   <body class="fondo">
     <!-- Configuración de banner y el texto dentro del banner-->
     <div class="banner">
-      <i>
-        <p class="titulo">BOOKS RICHT</p>
-      </i>
-      <p class="descripcion" style="font-weight:bold;">A great library
-        <br> in one place
-      </p>
+      
+        <div class="row">
+          <div class="col-3"> <!-- Columna del Logo con asignación de tamaño equivalente a tres columnas -->
+            <i>
+              <p class="titulo">BOOKS RICHT</p>
+            </i>
+            <p class="descripcion" style="font-weight:bold;">A great library
+              <br> in one place
+            </p>
+          </div>
+          <div class="col-9"> <!-- Columna del barra de búsqueda con asignación de tamaño equivalente a nueve columnas -->
+            <!-- Barra de búsqueda -->
+            <!-- Search form -->
+            <form class="form-inline">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+                aria-label="Search">
+            </form>
+          </div>
+        </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+      
     </div>
     <!-- Código fuente de la barra de navegación-->
     <nav class="navbar navbar-expand-lg" style="background-color:rgb(172, 103, 13);">
-      <a class="navbar-brand" href="index.html" style="color: white;">MENU</a>
+      <a class="navbar-brand" href="/" style="color: white;">MENU</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2"><i class="icon ion-md-menu colordeicono"></i></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active mx-3" href="/register" style="color: white;">Identify or Register</a>
-          <a class="nav-item nav-link mx-3" href="academic_activities.html" style="color: white;">Offers</a>
-          <a class="nav-item nav-link mx-3" href="contact_me.html" style="color: white;">Novelties</a>
-          <a class="nav-item nav-link mx-3" href="blog.html" style="color: white;">Help</a>
+          <a class="nav-item nav-link active mx-3" href="/register" style="color: white;">Register</a>
+          <a class="nav-item nav-link active mx-3" href="/sign_in" style="color: white;">Sign in</a>
+          <a class="nav-item nav-link mx-3" href="/offers" style="color: white;">Offers</a>
+          <a class="nav-item nav-link mx-3" href="/novelties" style="color: white;">Novelties</a>
+          <a class="nav-item nav-link mx-3" href="/bestsellers" style="color: white;">Best Sellers</a>
+          <a class="nav-item nav-link mx-3" href="/help" style="color: white;">Help</a>
         </div>
       </div>
     </nav>

@@ -27,7 +27,32 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
     return render_template("index.html")
 
-# Enrutamiento al index
+# Enrutamiento a Register
 @app.route("/register")
 def register():
     return render_template("register.html")
+
+# Enrutamiento al Sign in
+@app.route("/sign_in")
+def sign_in():
+    return render_template("sign_in.html")
+
+# Enrutamiento a Offers
+@app.route("/offers")
+def offers():
+    return render_template("offers.html")
+
+# Enrutamiento a Novelties
+@app.route("/novelties")
+def novelties():
+    return render_template("novelties.html")
+
+# Enrutamiento a Best Sellers
+@app.route("/bestsellers")
+def bestsellers():
+    return render_template("bestsellers.html")
+
+# Enrutamiento a Help
+@app.route("/help")
+def help():
+    return render_template("help.html")
