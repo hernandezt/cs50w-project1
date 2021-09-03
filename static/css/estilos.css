@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*Estilos para el banner*/
 .banner {
   background-color: #2780d4;
@@ -23,5 +24,10 @@
 
 .margin-button {
   margin-right: 30%;
+}
+
+/* Botón de la barra de búsqueda */
+.botonbusqueda {
+  margin-left: 5px;
 }
 /*# sourceMappingURL=estilos.css.map */
