@@ -8,12 +8,14 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 def main():
+    count = 0
     f = open("books.csv")
     reader = csv.reader(f)
     for isbn, title, author, year in reader:
         db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
                     {"isbn": isbn, "title": title, "author": author, "year":year})
-        print(f"Libro agregado a la base de datos {isbn} {title} {author}")
+        print(f"Libro agregado a la base de datos {count} {isbn} {title} {author}")
+        count = count + 1
     db.commit()
 
 if __name__ == "__main__":
