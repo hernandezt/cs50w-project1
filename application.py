@@ -68,8 +68,6 @@ def help():
 # Ejecuta el inicio de sesión y el cierre de sesión del usuario registrado en el sitio WEB.
 
 # Enrutamiento a Register
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -83,21 +81,20 @@ def register():
         elif not password:
             return apology("Su contraseña es incorrecta. Inténtelo nuevamente")
 
-        elif not confirmation:
-            return apology("La confirmación del password no coincide con el anterior")
+        #elif not confirmation:
+            #return apology("La confirmación del password no coincide con el anterior")
 
         elif password != confirmation:
             return apology("Las contraseñas no coinciden")
 
         USER_ID = 0
 
-        validar = db.execute(
-            "SELECT count(username) FROM users WHERE username = :username", {"username":username})
+        validar = db.execute("SELECT count(name) FROM users WHERE name = :username", {"username":username})
         if validar[0]["count(username)"] == 1:
             return apology("Este usuario ya existe")
 
         try:
-            USER_ID = db.execute("insert into users(username,hash) values(:USERNAME,:PASSWORD)",
+            USER_ID = db.execute("insert into users(name,last_name, email, password, confirmation) values(:USERNAME,:PASSWORD)",
                                  USERNAME=username, PASSWORD=generate_password_hash(password))
 
         except:

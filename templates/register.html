@@ -25,17 +25,29 @@ Register
             <div class="login_form">
 
                 <form action="/register" method="post">
+                    <!-- Campo del nombre del usuario -->
                     <div class="form-group">
-                        <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username"
+                        <input autocomplete="off" autofocus class="form-control" name="name" placeholder="Name"
                             type="text" required />
                     </div>
+                    <!-- Campo del apellido del usuario -->
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="last_name" placeholder="Last name"
+                            type="text" required />
+                    </div>
+                    <!-- Campo del email del usuario -->
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Email"
+                            type="text" required />
+                    </div>
+                    <!-- Campo de la contraseña del usuario -->
                     <div class="form-group">
                         <input class="form-control" name="password" placeholder="Password" type="password"
                             title="Use mayúsculas, minúsculas y caracteres" minlength="8" maxlength="30" required />
                     </div>
-
+                    <!-- Campo de la confirmación de la contraseña del usuario -->
                     <div class="form-group">
-                        <input class="form-control" name="confirmation" placeholder="Confirmation" type="password"
+                        <input class="form-control" name="confirmation" placeholder="Confirm your password" type="password"
                             minlength="8" maxlength="30" required />
                     </div>
 
