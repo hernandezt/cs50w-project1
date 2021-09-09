@@ -16,6 +16,7 @@ def main():
                     {"isbn": isbn, "title": title, "author": author, "year":year})
         print(f"Libro agregado a la base de datos {count} {isbn} {title} {author}")
         count = count + 1
+    # Aplicar db.commit para indicar que guardamos los cambios en la base de datos
     db.commit()
 
 if __name__ == "__main__":

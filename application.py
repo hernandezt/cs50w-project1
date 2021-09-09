@@ -5,6 +5,8 @@ from flask import Flask, session, request, redirect, render_template
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from werkzeug.security import check_password_hash, generate_password_hash
+from helpers import apology, login_required
 
 #Inicialización de aplicción Flask
 app = Flask(__name__)
@@ -71,37 +73,43 @@ def help():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        username = request.form.get("username")
+        name = request.form.get("name")
+        last_name = request.form.get("last_name")
+        email = request.form.get("email")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
-        if not username:
+        if not email:
             return apology("No se ha podido encontrar tu cuenta de usuario")
 
         elif not password:
             return apology("Su contraseña es incorrecta. Inténtelo nuevamente")
 
-        #elif not confirmation:
-            #return apology("La confirmación del password no coincide con el anterior")
+        elif not confirmation:
+            return apology("La confirmación del password no coincide con el anterior")
 
         elif password != confirmation:
             return apology("Las contraseñas no coinciden")
 
         USER_ID = 0
 
-        validar = db.execute("SELECT count(name) FROM users WHERE name = :username", {"username":username})
-        if validar[0]["count(username)"] == 1:
+        validar = db.execute("SELECT count(email) as total FROM users WHERE email = :email", {"email":email}).mappings().all()
+        print(type(validar))
+        print(validar)
+        if validar[0]["total"] == 1:
             return apology("Este usuario ya existe")
 
         try:
-            USER_ID = db.execute("insert into users(name,last_name, email, password, confirmation) values(:USERNAME,:PASSWORD)",
-                                 USERNAME=username, PASSWORD=generate_password_hash(password))
+            USER_ID = db.execute("insert into users(name, last_name, email, password, confirmation) values(:NAME, :LASTNAME, :EMAIL, :PASSWORD, :CONFIRMATION) returning id_users",
+                                 {"NAME" :name, "LASTNAME" :last_name, "EMAIL" :email, "PASSWORD" :generate_password_hash(password), "CONFIRMATION" :confirmation})
+            print(USER_ID)
+            session["user_id"] = dict(USER_ID.fetchone())["id_users"]
+            db.commit()
+            return redirect("/")
 
-        except:
+        except Exception as a:
+            print(a)
             return apology("El nombre de usuario ya existe")
-
-        session["user_id"] = USER_ID
-        return redirect("/")
-
+        
     else:
         return render_template("register.html")
