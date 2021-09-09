@@ -36,7 +36,38 @@ def index():
 
 @app.route("/sign_in")
 def sign_in():
-    return render_template("sign_in.html")
+    
+    # En caso de olvidar el user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("email"):
+            return apology("La dirección de correo no ha sido registrada")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("Contraseña no válida")
+
+        # Query database for username
+        rows = db.execute("SELECT * FROM users WHERE email = :email",
+                          mail=request.form.get("email"))
+
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
+            return apology("Correo o contraseña incorrecta")
+
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
+
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("sign_in.html")
 
 # Enrutamiento a Offers
 
