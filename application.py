@@ -26,41 +26,42 @@ db = scoped_session(sessionmaker(bind=engine))
 
 # Enrutamiento al index
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
 
 # Enrutamiento al Sign in
 
-
-@app.route("/sign_in")
+@app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
+    
     
     # En caso de olvidar el user_id
     session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        email = request.form.get("email")
 
         # Ensure username was submitted
         if not request.form.get("email"):
-            return apology("La dirección de correo no ha sido registrada")
+            return "La dirección de correo no ha sido registrada"
+            #return apology("La dirección de correo no ha sido registrada")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("Contraseña no válida")
+            return "La contraseña no es válida"
+            #return apology("Contraseña no válida")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE email = :email",
-                          mail=request.form.get("email"))
+        rows = db.execute("SELECT * FROM users WHERE email = :email", {"email":email}).mappings().all()                         
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
             return apology("Correo o contraseña incorrecta")
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        session["id_users"] = rows[0]["id_users"]
 
         # Redirect user to home page
         return redirect("/")
@@ -125,8 +126,7 @@ def register():
         USER_ID = 0
 
         validar = db.execute("SELECT count(email) as total FROM users WHERE email = :email", {"email":email}).mappings().all()
-        print(type(validar))
-        print(validar)
+        
         if validar[0]["total"] == 1:
             return apology("Este usuario ya existe")
 
@@ -144,3 +144,12 @@ def register():
         
     else:
         return render_template("register.html")
+
+@app.route("/logout")
+def logout():
+    
+    # Limpiar sesión de cualquier usuario en el navegador
+    session.clear()
+
+    # Redireccionar a la página de inicio
+    return redirect("/")
