@@ -35,8 +35,7 @@ def index():
 @app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
     
-    
-    # En caso de olvidar el user_id
+    # En caso de olvidar el user_id y eliminar las sesiones anteriores
     session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
@@ -54,14 +53,15 @@ def sign_in():
             #return apology("Contraseña no válida")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE email = :email", {"email":email}).mappings().all()                         
+        rows = db.execute("SELECT * FROM users WHERE email = :email", {"email":email}).mappings().all()
+        print(rows)                         
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
             return apology("Correo o contraseña incorrecta")
 
-        # Remember which user has logged in
-        session["id_users"] = rows[0]["id_users"]
+        # Remember which user has logged in. La variable de identificación user_id es de flask.
+        session["user_id"] = rows[0]["id_users"]
 
         # Redirect user to home page
         return redirect("/")
@@ -145,6 +145,7 @@ def register():
     else:
         return render_template("register.html")
 
+# Enrutamiento del fin de sesión
 @app.route("/logout")
 def logout():
     
@@ -153,3 +154,14 @@ def logout():
 
     # Redireccionar a la página de inicio
     return redirect("/")
+
+# Enrutamiento a la hoja de resultados de búsqueda
+@app.route("/resultados", methods=["GET", "POST"])
+def resultados():
+    result = request.args.get("busqueda")
+    if not result:
+        return "Escriba palabras claves para brindarle resultados"
+    # Construcción de variable de búsqueda
+    result = "%" + result + "%"
+    books = db.execute("select * from books WHERE isbn like :result or title like :result or author like :result", {"result":result}).fetchall()
+    return render_template("resultados.html", books = books)

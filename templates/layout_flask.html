@@ -40,12 +40,14 @@
           <div class="col-7">
             <!-- Columna del barra de búsqueda con asignación de tamaño equivalente a nueve columnas -->
             <!-- Barra de búsqueda -->
-            <form class="form-inline mt-5">
+            {% if session.user_id %}
+            <form class="form-inline mt-5" method="GET" action="/resultados">
               <i class="fas fa-search" aria-hidden="true"></i>
-              <input class="form-control form-control ml-5 w-75" type="text" placeholder="Search" aria-label="Search">
+              <input name="busqueda" class="form-control form-control ml-5 w-75" type="text" placeholder="Search" aria-label="Search">
               <!-- Botón de la Barra de búsqueda -->
               <button class="btn btn-outline-light my-2 my-sm-0 botonbusqueda" type="submit">Search</button>
             </form>
+            {% endif %}
           </div>
           </div>
 
@@ -60,7 +62,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          {% if session.user_id %}
+          {% if session.user_id %}          
           <a class="nav-item nav-link mx-3" href="/offers" style="color: white;">Offers</a>
           <a class="nav-item nav-link mx-3" href="/novelties" style="color: white;">Novelties</a>
           <a class="nav-item nav-link mx-3" href="/bestsellers" style="color: white;">Best Sellers</a>
