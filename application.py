@@ -1,7 +1,7 @@
 # Librería para conectar con la variable de entorno
 import os
 
-from flask import Flask, session, request, redirect, render_template
+from flask import Flask, session, request, redirect, render_template, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -158,10 +158,24 @@ def logout():
 # Enrutamiento a la hoja de resultados de búsqueda
 @app.route("/resultados", methods=["GET", "POST"])
 def resultados():
-    result = request.args.get("busqueda")
-    if not result:
-        return "Escriba palabras claves para brindarle resultados"
-    # Construcción de variable de búsqueda
-    result = "%" + result + "%"
-    books = db.execute("select * from books WHERE isbn like :result or title like :result or author like :result", {"result":result}).fetchall()
-    return render_template("resultados.html", books = books)
+    if request.method == "POST":
+        result = request.form.get("busqueda")
+        print(result)
+        if not result:
+            return "Escriba palabras claves para brindarle resultados"
+        # Construcción de variable de búsqueda
+        
+        books = db.execute("select * from books WHERE isbn ilike :result or title ilike :result or author ilike :result", {"result":"%" + result + "%"}).fetchall()
+        print(books)
+        return render_template("resultados.html", books = books)
+
+# Enrutamiento a la página del libro
+@app.route("/pagina_del_libro/<isbn>", methods=["GET", "POST"])
+def pagina_del_libro(isbn):
+    if request.method == "GET":
+
+
+        book = db.execute("select * from books WHERE isbn ilike :selecciondelusuario", {"selecciondelusuario":"%" + isbn + "%"}).fetchone()
+        return render_template("pagina_del_libro.html", book = book)
+
+        

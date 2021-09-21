@@ -13,14 +13,21 @@ Resultados
 <!-- Apertura de bloque main -->
 {% block main %}
 
-<div class="container">{% for book in books:%}
-    <div class="row">{{book.title}}</div>
+<div class="container">{% for book in books %}
+    <div class="row">
+        <a href="{{ url_for('pagina_del_libro', isbn = book.isbn) }}">
+        <div class="div">{{book.title}}</div>
+        <div class="div">{{book.isbn}}</div>
+        <div class="div">{{book.author}}</div>
+        <div class="div">{{book.year}}</div>
+        </a>      
+    </div>
     {% endfor %}
 </div>
 
 
 
 
-<!-- Apertura de bloque main -->
+<!-- Fin del bloque main -->
 {% endblock %}
 

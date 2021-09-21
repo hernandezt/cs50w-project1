@@ -11,6 +11,15 @@ books-richt
 <!-- Código de Contenido -->
 <!-- Apertura de bloque -->
 {% block main %}
-<h1>Bienvenido</h1>
+<!-- Imagen de portada -->
+<div>
+    {% if session.user_id %}
+    <h1>CONTENIDO</h1>
+    {% else %}
+    <img src="/static/images/biblioteca_mediana.jpg" class="portada" width="Responsive image">
+    {% endif %}    
+</div>
+
+
 <!-- Cierre del bloque -->
 {% endblock %}
