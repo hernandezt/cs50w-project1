@@ -13,17 +13,37 @@ Resultados
 <!-- Apertura de bloque main -->
 {% block main %}
 
-<div class="container">{% for book in books %}
-    <div class="row">
-        <a href="{{ url_for('pagina_del_libro', isbn = book.isbn) }}">
-        <div class="div">{{book.title}}</div>
-        <div class="div">{{book.isbn}}</div>
-        <div class="div">{{book.author}}</div>
-        <div class="div">{{book.year}}</div>
-        </a>      
-    </div>
-    {% endfor %}
+<div class="container">
+    <!-- TABLA DE RESULTADOS -->
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">isbn</th>
+        <th scope="col">title</th>
+        <th scope="col">author</th>
+        <th scope="col">year</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+       
+       {% for book in books %}        
+        
+      <tr>        
+        <td> <a>{{loop.index}}</a></td>
+        <td><a href="{{ url_for('pagina_del_libro', isbn = book.isbn) }}">{{book.isbn}}</a></td>
+        <td><a href="{{ url_for('pagina_del_libro', isbn = book.isbn) }}">{{book.title}}</a></td>
+        <td><a href="{{ url_for('pagina_del_libro', isbn = book.isbn) }}">{{book.author}}</a></td>
+        <td><a>{{book.year}}</a></td>
+      </tr>
+      {% endfor %}     
+     
+    </tbody>
+  </table>
+    
 </div>
+
 
 
 

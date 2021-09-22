@@ -178,4 +178,10 @@ def pagina_del_libro(isbn):
         book = db.execute("select * from books WHERE isbn ilike :selecciondelusuario", {"selecciondelusuario":"%" + isbn + "%"}).fetchone()
         return render_template("pagina_del_libro.html", book = book)
 
-        
+ # RESEÑA DE LIBROS
+@app.route("/pagina_del_libro", methods=["POST"])
+def reviews():
+    if request.method == "POST":
+        reviews = request.form.post("reviews")
+    reviews = db.execute()
+               

@@ -12,20 +12,24 @@ books-richt
 <!-- Apertura de bloque -->
 {% block main %}
 <!-- Imagen de portada -->
-<div>
-    <h3>DESCRIPCIÓN DEL LIBRO</h3>
+<div class="text-center">
+    <h3>BOOK DESCRIPTION</h3>
     <div class="div">{{ book.title }}</div>
     <div class="di">{{ book.isbn }}</div>
     <div class="div">{{book.author}}</div>
     <div class="div">{{book.year}}</div>        
 </div>
 <!-- RESEÑA DEL USUARIO -->
-<form>   
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlTextarea1">RESEÑA</label>
+<form>
+  <div class="row">
+    <!-- Columna de comentarios -->
+    <div class="col-6">comentarios<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus provident dolorem voluptatum quo, quisquam veniam quibusdam voluptatibus cumque voluptatem obcaecati perferendis in corporis? Odit blanditiis molestias laboriosam voluptatem assumenda sed.</p></div>
+    <div class="form-group col-4">
+      <label for="exampleFormControlTextarea1">Reviews</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
     </div>
+    <div class="col-2"><button class="btn btn-primary"  role="button">Submit</button></div>
+  </div>
 </form>
 
 <!-- Cierre del bloque -->
