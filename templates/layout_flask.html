@@ -16,6 +16,8 @@
   <!-- CDN de íconos de redes sociales-->
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" />
+
   <!-- Funcionalidades adicionales con Flask mediante Jinja -->
   <title> {% block title %}{% endblock %}</title>
 </head>
@@ -44,8 +46,8 @@
           {% if session.user_id %}
           <form class="form-inline mt-5" method="POST" action="{{url_for('resultados')}}">
             <i class="fas fa-search" aria-hidden="true"></i>
-            <input name="busqueda" id = "busqueda" class="form-control form-control ml-5 w-75" type="text" placeholder="Search"
-              aria-label="Search">
+            <input name="busqueda" id="busqueda" class="form-control form-control ml-5 w-75" type="text"
+              placeholder="Search" aria-label="Search">
             <!-- Botón de la Barra de búsqueda -->
             <button class="btn btn-outline-light my-2 my-sm-0 botonbusqueda" type="submit">Search</button>
           </form>
@@ -82,7 +84,7 @@
         </div>
       </div>
     </nav>
-    
+
     <!-- Cierre de funcionalidades adicionales con Flask mediante Jinja-->
     {% block main %}{% endblock %}
 
