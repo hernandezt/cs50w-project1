@@ -1,8 +1,9 @@
 # Librería para conectar con la variable de entorno
 import os
 import requests
+import json
 
-from flask import Flask, session, request, redirect, render_template, url_for, flash
+from flask import Flask, session, request, redirect, render_template, url_for, flash, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -188,24 +189,39 @@ def pagina_del_libro(isbn):
         
         book = db.execute("select * from books WHERE isbn ilike :selecciondelusuario", {"selecciondelusuario":"%" + isbn + "%"}).fetchone()
         
-        
+        # Información de Reseña de Goodreads (Google Books API)
         response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn).json()
 
-        response = response["items"][0]["volumeInfo"]
+        if "items" in response:
+            
+            response = response["items"][0]["volumeInfo"]
+
+        else:
+            return render_template("apology.html", message = "El libro no tiene datos")
+
+        if "description" in response:
+            description = response["description"]
+        else:
+            description = "No existe una descripción"
         
-        description = response["description"]
+        if "averageRating" in response:
+            averageRating = response["averageRating"]
+        else:
+            averageRating = "No existe averageRating"
+        
+        if "ratingsCount" in response:
+            ratingsCount = response["ratingsCount"]
+        else:
+            ratingsCount = "No existe ratingsCount"
 
-        averageRating = response["averageRating"]
-
-        ratingsCount = response["ratingsCount"]
-
-        #print(f"{title}: {description}")
-
-
-
+        if "imageLinks" or "thumbnail" in response:
+            image = response["imageLinks"]["thumbnail"]
+        else:
+            image = "No se encontró imagen del libro"
+        
 
         return render_template("pagina_del_libro.html", book = book, comentario = comentario, description = description, averageRating = averageRating,\
-            ratingsCount = ratingsCount)
+            ratingsCount = ratingsCount, image = image)
 
     #En caso que el método sea POST:
     else:
@@ -231,4 +247,16 @@ def pagina_del_libro(isbn):
         return redirect("/pagina_del_libro/"+ isbn)
             # Elemplo: http://127.0.0.1:5000/pagina_del_libro/0140086838
 
-
+# ACCESO AL API
+@app.route("/api/<isbn>", methods=["GET"])
+def api(isbn):
+    api_book = db.execute("select * from books WHERE isbn = :isbn", {"isbn" :isbn}).fetchone()
+    api_review = db.execute("select id, ratings from reviews WHERE isbn = :isbn", {"isbn" :isbn}).fetchone()
+    if api_book is None:
+        return "ERROR"
+    elif api_review is None:
+        return "ERROR"
+    else:
+        rating = float(api_review.ratings)
+        return jsonify({"author":api_book.author, "title":api_book.title, "year":api_book.year, "isbn":api_book.isbn, "ratings":rating,"review_count":api_review.id})
+        

@@ -16,22 +16,27 @@ books-richt
   <h4 class="text-center my-4">BOOK DESCRIPTION</h4>
   <div class="row">
     <div class="col-sm">
-      <!-- Columna izquierda -->
-<div class="text-center">  
-  <div class="div">{{book.title}}</div>
-  <div class="di">{{book.isbn}}</div>
-  <div class="div">{{book.author}}</div>
-  <div class="div">{{book.year}}</div>   
-</div>
+      <!-- COLUMNA IZQUIERDA -->
+      <!-- Imagen del libro -->
+      <div class="text-center">
+        <img src="{{image}}">
+      </div>
+      <!-- Datos del libro -->
+      <div class="text-center">
+        <div class="div">{{book.title}}</div>
+        <div class="di">{{book.isbn}}</div>
+        <div class="div">{{book.author}}</div>
+        <div class="div">{{book.year}}</div>
+      </div>
     </div>
     <!-- Columna derecha -->
-    <div class="col-sm">      
-<div class="text-center">
-  <div class="div">{{description}}</div>
-  <div class="div">Average Rating = {{averageRating}}</div>
-  <div class="div">Rating count = {{ratingsCount}}</div>  
-</div>
-    </div>    
+    <div class="col-sm">
+      <div class="text-center">
+        <div class="div">{{description}}</div>
+        <div class="div">Average Rating = {{averageRating}}</div>
+        <div class="div">Rating count = {{ratingsCount}}</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -39,7 +44,7 @@ books-richt
 <div class="container">
   <h4 class=" my-5">REVIEWS</h4>
   <div class="row">
-    <div class="col-8">      
+    <div class="col-8">
       <table class="table">
         <thead class="thead-dark table-bordered">
           <tr>
@@ -97,10 +102,10 @@ books-richt
         <!-- BOTÓN "ACEPTAR" EN LA CAJA DE COMENTARIOS -->
         <button class="btn btn-primary" type="submit">Submit</button>
         <br>
-        <br>                
+        <br>
       </form>
     </div>
-  </div>  
+  </div>
 </div>
 
 <!-- Cierre del bloque -->

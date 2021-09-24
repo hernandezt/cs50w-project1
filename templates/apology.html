@@ -12,5 +12,18 @@ books-richt
 <!-- Apertura de bloque -->
 {% block main %}
 <h3>{{bottom}}</h3>
+
+{% with message = get_flashed_messages() %}
+{% if message %}
+
+<div class="alert {{category}}">
+<h5>{{message}}</h5>
+</div>
+
+{% endif %}
+{% endwith %}
+
+<h1>{{message}}</h1>
+
 <!-- Cierre del bloque -->
 {% endblock %}
