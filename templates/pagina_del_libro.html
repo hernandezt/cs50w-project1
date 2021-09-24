@@ -11,55 +11,97 @@ books-richt
 <!-- Código de Contenido -->
 <!-- Apertura de bloque -->
 {% block main %}
-<!-- Imagen de portada -->
-<div class="text-center">
-  <h3>BOOK DESCRIPTION</h3>
-  <div class="div">{{ book.title }}</div>
-  <div class="di">{{ book.isbn }}</div>
-  <div class="div">{{book.author}}</div>
-  <div class="div">{{book.year}}</div>
-</div>
-<!-- RESEÑA DEL USUARIO -->
-<form>
+<!-- DISTRIBUCIÓN EN COLUMNAS -->
+<div class="container">
+  <h4 class="text-center my-4">BOOK DESCRIPTION</h4>
   <div class="row">
-    <!-- Columna de comentarios -->
-    <div class="col-6">comentarios<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus provident
-        dolorem voluptatum quo, quisquam veniam quibusdam voluptatibus cumque voluptatem obcaecati perferendis in
-        corporis? Odit blanditiis molestias laboriosam voluptatem assumenda sed.</p>
+    <div class="col-sm">
+      <!-- Columna izquierda -->
+<div class="text-center">  
+  <div class="div">{{book.title}}</div>
+  <div class="di">{{book.isbn}}</div>
+  <div class="div">{{book.author}}</div>
+  <div class="div">{{book.year}}</div>   
+</div>
     </div>
-    <!-- Caja de comentarios -->
-    <div class="col-4">
-      <form action="POST">
-        <div class="form-group">
-          <label for="formcontrol">Reviews</label>
-          <textarea class="form-control" id="formcontrol" name="comentario" rows="3"></textarea>
-        </div>
+    <!-- Columna derecha -->
+    <div class="col-sm">      
+<div class="text-center">
+  <div class="div">{{description}}</div>
+  <div class="div">Average Rating = {{averageRating}}</div>
+  <div class="div">Rating count = {{ratingsCount}}</div>  
+</div>
+    </div>    
+  </div>
+</div>
 
-        <!-- BOTÓN "ACEPTAR" EN LA CAJA DE COMENTARIOS -->
+<!-- RESEÑA DEL USUARIO -->
+<div class="container">
+  <h4 class=" my-5">COMENTARIOS</h4>
+  <div class="row">
+    <div class="col-8">      
+      <table class="table">
+        <thead class="thead-dark table-bordered">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Review</th>
+            <th scope="col">Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in comentario %}
+          <tr>
+            <td>{{user.name}}</td>
+            <td>{{user.review}}</td>
+            <td>{{user.ratings}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-4">
+      {% with message = get_flashed_messages(with_categories = true) %}
+      {% if message %}
+      {% for category, msg in message %}
+      <div class="alert {{category}}">
+        <h5>{{msg}}</h5>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <!-- CAJA DE COMENTARIOS -->
+      <form method="POST">
         <div class="form-group">
-          <div class="col-2"><button class="btn btn-primary" role="button">Submit</button></div>
+          <label for="formcontrol">Reviews (Only one review per book)</label>
+          <textarea class="form-control" id="formcontrol" name="comentario" rows="3" required></textarea>
         </div>
 
         <!-- VALORACIÓN DEL LIBRO CON PUNTAJE DE ESTRELLAS -->
         <div class="star-rating">
           <div class="thanks-msg">Thanks for your feedback !!!</div>
           <div class="star-input">
-            <input type="radio" name="rating" id="rating-5" value="5">
+            <input type="radio" name="rating" id="rating-5" value="5" required>
             <label for="rating-5" class="fas fa-star"></label>
-            <input type="radio" name="rating" id="rating-4" value="4">
+            <input type="radio" name="rating" id="rating-4" value="4" required>
             <label for="rating-4" class="fas fa-star"></label>
-            <input type="radio" name="rating" id="rating-3" value="3">
+            <input type="radio" name="rating" id="rating-3" value="3" required>
             <label for="rating-3" class="fas fa-star"></label>
-            <input type="radio" name="rating" id="rating-2" value="2">
+            <input type="radio" name="rating" id="rating-2" value="2" required>
             <label for="rating-2" class="fas fa-star"></label>
-            <input type="radio" name="rating" id="rating-1" value="1">
+            <input type="radio" name="rating" id="rating-1" value="1" required>
             <label for="rating-1" class="fas fa-star"></label>
           </div>
         </div>
+        <!-- BOTÓN "ACEPTAR" EN LA CAJA DE COMENTARIOS -->
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <br>
+        <br>                
       </form>
     </div>
-  </div>
-</form>
+  </div>  
+</div>
 
 <!-- Cierre del bloque -->
 {% endblock %}

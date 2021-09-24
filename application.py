@@ -1,7 +1,8 @@
 # Librería para conectar con la variable de entorno
 import os
+import requests
 
-from flask import Flask, session, request, redirect, render_template, url_for
+from flask import Flask, session, request, redirect, render_template, url_for, flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -52,7 +53,7 @@ def sign_in():
             return "La contraseña no es válida"
             #return apology("Contraseña no válida")
 
-        # Query database for username
+        # Consulta a la base de datos del usuario (con base en EMAIL)
         rows = db.execute("SELECT * FROM users WHERE email = :email", {"email":email}).mappings().all()
         print(rows)                         
 
@@ -62,6 +63,9 @@ def sign_in():
 
         # Remember which user has logged in. La variable de identificación user_id es de flask.
         session["user_id"] = rows[0]["id_users"]
+        session["username"] = rows[0]["name"]
+        name = session["username"]
+        print("El nombre del usuario es: " + name)
 
         # Redirect user to home page
         return redirect("/")
@@ -135,6 +139,9 @@ def register():
                                  {"NAME" :name, "LASTNAME" :last_name, "EMAIL" :email, "PASSWORD" :generate_password_hash(password), "CONFIRMATION" :confirmation})
             print(USER_ID)
             session["user_id"] = dict(USER_ID.fetchone())["id_users"]
+            session["username"] = name
+            nm = session["username"] 
+            print(" El usuario es: " + nm)
             db.commit()
             return redirect("/")
 
@@ -173,15 +180,55 @@ def resultados():
 @app.route("/pagina_del_libro/<isbn>", methods=["GET", "POST"])
 def pagina_del_libro(isbn):
     if request.method == "GET":
-
-
+        id_users = session["user_id"]
+        comentarios = db.execute("select name, review, ratings from users join reviews on users.id_users = reviews.id_users \
+            WHERE isbn = :isbn", {"isbn" :isbn})
+        comentario = comentarios.fetchall()
+        print("Los comentarios son: " + str(comentario))
+        
         book = db.execute("select * from books WHERE isbn ilike :selecciondelusuario", {"selecciondelusuario":"%" + isbn + "%"}).fetchone()
-        return render_template("pagina_del_libro.html", book = book)
+        
+        
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn).json()
 
- # RESEÑA DE LIBROS
-@app.route("/pagina_del_libro", methods=["POST"])
-def reviews():
-    if request.method == "POST":
-        reviews = request.form.post("reviews")
-    reviews = db.execute()
-               
+        response = response["items"][0]["volumeInfo"]
+        
+        description = response["description"]
+
+        averageRating = response["averageRating"]
+
+        ratingsCount = response["ratingsCount"]
+
+        #print(f"{title}: {description}")
+
+
+
+
+        return render_template("pagina_del_libro.html", book = book, comentario = comentario, description = description, averageRating = averageRating,\
+            ratingsCount = ratingsCount)
+
+    #En caso que el método sea POST:
+    else:
+        reviews = request.form.get("comentario")
+        rating = request.form.get("rating")
+        id_users = session["user_id"]
+        print(reviews)
+        print(rating)
+        # la sintaxis :isbn hace referencia a la variable y simplemente isbn hace referenca a la table
+        queryreview = db.execute("select * from reviews WHERE isbn = :isbn and id_users = :id_users", {"isbn" :isbn, "id_users" :id_users})
+
+        if queryreview.rowcount == 1:
+            flash("Usted ya tiene una reseña para este libro", "alert-info")
+            return redirect("/pagina_del_libro/"+ isbn)
+        
+        else:
+            rating = int(rating)
+            queryinsert = db.execute("insert into reviews(id_users, isbn, review, ratings) values(:id_users, :isbn, :review, :rating)",\
+                {"id_users":id_users, "isbn":isbn, "review" :reviews, "rating" :rating})
+
+            # Ahora se verifica que la inserción de datos es correcta 
+            db.commit()
+        return redirect("/pagina_del_libro/"+ isbn)
+            # Elemplo: http://127.0.0.1:5000/pagina_del_libro/0140086838
+
+
