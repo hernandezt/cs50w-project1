@@ -259,4 +259,5 @@ def api(isbn):
     else:
         rating = float(api_review.ratings)
         return jsonify({"author":api_book.author, "title":api_book.title, "year":api_book.year, "isbn":api_book.isbn, "ratings":rating,"review_count":api_review.id})
-        
+
+# FIN DEL PROGRAMA
