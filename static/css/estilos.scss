@@ -1,9 +1,21 @@
 /*Estilos para el banner*/
 .banner
 {
-   background-color: rgb(39, 128, 212);
+   background-color: rgb(49, 146, 236);
 }
-/* */
+/* Título de la página */
+.titulo
+{
+   color: rgb(212, 193, 20);
+   font-weight: bold;
+   font-size: 1cm;
+}
+/* Slogan de la página */
+.slogan
+{
+   color: rgb(212, 113, 20);
+   font-size: 0.6cm;
+}
 .login_form
 {
    width: 20vw;

@@ -1,10 +1,22 @@
 @charset "UTF-8";
 /*Estilos para el banner*/
 .banner {
-  background-color: #2780d4;
+  background-color: #3192ec;
 }
 
-/* */
+/* Título de la página */
+.titulo {
+  color: #d4c114;
+  font-weight: bold;
+  font-size: 1cm;
+}
+
+/* Slogan de la página */
+.slogan {
+  color: #d47114;
+  font-size: 0.6cm;
+}
+
 .login_form {
   width: 20vw;
   margin-top: 30px;
