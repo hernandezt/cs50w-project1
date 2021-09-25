@@ -13,7 +13,7 @@ from helpers import apology, login_required
 #Inicialización de aplicción Flask
 app = Flask(__name__)
 
-# Check for environment variable
+# VERIFICACIÓN DE LAS VARIABLES DEL ENTORNO
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
@@ -171,8 +171,8 @@ def resultados():
         print(result)
         if not result:
             return "Escriba palabras claves para brindarle resultados"
-        # Construcción de variable de búsqueda
         
+        # Construcción de variable de búsqueda        
         books = db.execute("select * from books WHERE isbn ilike :result or title ilike :result or author ilike :result", {"result":"%" + result + "%"}).fetchall()
         print(books)
         return render_template("resultados.html", books = books)
@@ -230,7 +230,7 @@ def pagina_del_libro(isbn):
         id_users = session["user_id"]
         print(reviews)
         print(rating)
-        # la sintaxis :isbn hace referencia a la variable y simplemente isbn hace referenca a la table
+        # la sintaxis :isbn hace referencia a la variable y simplemente isbn hace referenca a la tabla
         queryreview = db.execute("select * from reviews WHERE isbn = :isbn and id_users = :id_users", {"isbn" :isbn, "id_users" :id_users})
 
         if queryreview.rowcount == 1:
