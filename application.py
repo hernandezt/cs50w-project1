@@ -26,13 +26,31 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-# Enrutamiento al index
+# Enrutamiento al index (HOME)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    carrusel_best = db.execute("select isbn from books limit 5").mappings().all()
+    # Se crea un diccionario vacío sin clave alguna usando doble llave
+    dictionary_carrusel_best = {}
+   
+     
+    lista = []
+    for book in carrusel_best:
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book['isbn']).json()
+    
+        response = response["items"][0]["volumeInfo"]
 
-# Enrutamiento al Sign in
+        dictionary_carrusel_best['image'] = response["imageLinks"]["thumbnail"]
+        dictionary_carrusel_best['isbn'] = book['isbn']
+        
+        lista.append(dictionary_carrusel_best.copy())
+       
+    print(lista)
+
+    return render_template("index.html", dictionary_carrusel_best = lista)
+
+# Enrutamiento al Sign in (INGRESO)
 
 @app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
@@ -77,13 +95,11 @@ def sign_in():
 
 # Enrutamiento a Offers
 
-
 @app.route("/offers")
 def offers():
     return render_template("offers.html")
 
 # Enrutamiento a Novelties
-
 
 @app.route("/novelties")
 def novelties():
@@ -91,13 +107,11 @@ def novelties():
 
 # Enrutamiento a Best Sellers
 
-
 @app.route("/bestsellers")
 def bestsellers():
     return render_template("bestsellers.html")
 
 # Enrutamiento a Help
-
 
 @app.route("/help")
 def help():
@@ -106,7 +120,7 @@ def help():
 # Esta sección de código registra a un usuario en el sitio WEB proveyendo un nombre de usuario y una contraseña.
 # Ejecuta el inicio de sesión y el cierre de sesión del usuario registrado en el sitio WEB.
 
-# Enrutamiento a Register
+# Enrutamiento a Register (REGISTRO)
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -153,7 +167,7 @@ def register():
     else:
         return render_template("register.html")
 
-# Enrutamiento del fin de sesión
+# Enrutamiento del fin de sesión (SALIDA DEL SISTEMA)
 @app.route("/logout")
 def logout():
     
