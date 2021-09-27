@@ -7,3 +7,20 @@ $env:FLASK_APP="application.py"
 
 /* Código para activar el debuger en modo automático */
 $env:FLASK_DEBUG=1
+
+
+
+
+
+
+
+
+REGISTRO 
+
+{% for book in dictionary_carrusel_best %}
+            <!-- FALTA: CARGAR LIBROS ALEATORIOS EN LA CONSULTA, HACER QUE EL ACTIVE FUNCIONE CORRECTAMENTE -->
+            <!-- FALTA AJUSTAR EL TAMAÑO DE CARRUSEL EN LA PÁGINA HTML -->
+            <div class="carousel-item">
+                <img class="d-block w-20" src="{{book.image}}" alt="First slide">
+            </div>
+            {% endfor %}

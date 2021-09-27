@@ -27,10 +27,11 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 # Enrutamiento al index (HOME)
+# CARRUSEL
 
 @app.route("/")
 def index():
-    carrusel_best = db.execute("select isbn from books limit 5").mappings().all()
+    carrusel_best = db.execute("select isbn from books limit 10").mappings().all()
     # Se crea un diccionario vacío sin clave alguna usando doble llave
     dictionary_carrusel_best = {}
    
@@ -49,6 +50,35 @@ def index():
     print(lista)
 
     return render_template("index.html", dictionary_carrusel_best = lista)
+
+# CONSULTA DE IMÁGENES DE LIBROS CON MÁS REITING DE GOOGLE
+@app.route("/carruselconbestrating")
+def carruselconbestrating():
+    carruselconbestrating = db.execute("select isbn, title from books limit 10").mappings().all()
+    
+    # Se crea un diccionario vacío sin clave alguna usando doble llave
+    carrusel_best_rating = {}
+   
+     
+    lista = []
+    for book in carruselconbestrating:
+        response = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book['isbn']).json()
+    
+        response = response["items"][0]["volumeInfo"]
+
+        carrusel_best_rating['image'] = response["imageLinks"]["thumbnail"]
+        carrusel_best_rating['isbn'] = book['isbn']
+        carrusel_best_rating['title'] = book['isbn']
+        carrusel_best_rating['averageRating'] = response['averageRating']
+        if float(carrusel_best_rating['averageRating']) >= 3:
+            lista.append(carrusel_best_rating.copy())
+
+       
+    print(lista)
+
+    return jsonify(lista)
+
+
 
 # Enrutamiento al Sign in (INGRESO)
 
